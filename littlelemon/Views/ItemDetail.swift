@@ -31,6 +31,7 @@ struct ItemDetail: View {
             Spacer(minLength: 20)
             Text(dish.desc ?? "")
                 .font(.littleLemonBody())
+                .padding()
             Spacer(minLength: 10)
             Text(dish.price.formatted(.currency(code: "USD")))
                 .font(.littleLemonSubheadline())
