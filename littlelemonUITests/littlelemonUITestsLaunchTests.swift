@@ -3,6 +3,7 @@
 //  littlelemonUITests
 //
 //  Created by Soumen Bhuin on 29/10/25.
+//  Copyright © 2025 smbhuin. All rights reserved.
 //
 
 import XCTest
