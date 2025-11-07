@@ -4,7 +4,7 @@ This is the final project for the iOS App Capstone, part of the Meta iOS Develop
 
 ## Preview
 
-![Preview](https://raw.githubusercontent.com/smbhuin/littlelemon/main/docs/little-lemon-ios-preview.png)
+![Preview](https://raw.githubusercontent.com/smbhuin/littlelemon/blob/main/docs/little-lemon-ios-preview.png)
 
 ## Features
 
@@ -18,7 +18,7 @@ This is the final project for the iOS App Capstone, part of the Meta iOS Develop
 
 The design of the Home screen is based on the following wireframe:
 
-![Wireframe](https://raw.githubusercontent.com/smbhuin/littlelemon/main/docs/wireframe.png)
+![Wireframe](https://raw.githubusercontent.com/smbhuin/littlelemon/blob/main/docs/wireframe.png)
 
 ## Getting Started
 
