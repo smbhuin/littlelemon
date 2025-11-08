@@ -9,13 +9,12 @@
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject var stackNavigator = StackNavigator()
-    @StateObject var profileData = ProfileData()
+    @StateObject var appNavigator = AppNavigator()
 
     var body: some View {
-        NavigationStack(path: $stackNavigator.path) {
+        NavigationStack(path: $appNavigator.rootPath) {
             Group{
-                if profileData.loggedIn {
+                if ProfileData.isUserAlreadyLoggedIn() {
                     Menu()
                 }
                 else {
@@ -23,15 +22,24 @@ struct ContentView: View {
                 }
             }
             .navigationDestination(for: String.self) { name in
-                if name == "menu" {
+                if name == "home" {
+                    Home()
+                }
+                else if name == "onboarding" {
+                    Onboarding()
+                }
+                else if name == "menu" {
                     Menu()
                 }
                 else if name == "profile" {
                     UserProfile()
                 }
             }
+            .navigationDestination(for: Dish.self) { dish in
+                ItemDetail(dish: dish)
+            }
         }
-        .environmentObject(stackNavigator)
+        .environmentObject(appNavigator)
     }
 }
 

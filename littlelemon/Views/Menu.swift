@@ -28,7 +28,7 @@ struct CategoryButton: View {
 
 struct Menu: View {
     @Environment(\.managedObjectContext) private var dataContext
-    @EnvironmentObject var stackNavigator: StackNavigator
+    @EnvironmentObject var appNavigator: AppNavigator
     @StateObject private var viewModel = MenuViewModel()
 
     @State private var searchText: String = ""
@@ -88,9 +88,6 @@ struct Menu: View {
         }
         .navigationBarBackButtonHidden()
         .littleLemonNavigationBarStyle()
-        .navigationDestination(for: Dish.self) { dish in
-            ItemDetail(dish: dish)
-        }
         .toolbar {
             ToolbarItem(placement: .principal) {
                 Image("Logo")
@@ -100,7 +97,7 @@ struct Menu: View {
             }
             let tb = ToolbarItem(placement: .navigationBarTrailing) {
                 Button(action: {
-                    stackNavigator.push("profile")
+                    appNavigator.push("profile")
                 }) {
                     Image("Profile")
                         .resizable()
@@ -118,7 +115,7 @@ struct Menu: View {
             }
         }
         .task {
-            if !viewModel.isLoaded {
+            if !(viewModel.isLoading || viewModel.isLoaded) {
                 await viewModel.fetchMenu(viewContext: dataContext)
             }
         }
@@ -133,7 +130,7 @@ struct Menu: View {
     
     func buildPredicate() -> NSCompoundPredicate {
         let search = searchText == "" ? NSPredicate(value: true) : NSPredicate(format: "title CONTAINS[cd] %@", searchText)
-        let category = selectedCategory == "All" ? NSPredicate(value: true) : NSPredicate(format: "category = %@", selectedCategory.lowercased())
+        let category = (selectedCategory == "All") || !searchText.isEmpty ? NSPredicate(value: true) : NSPredicate(format: "category = %@", selectedCategory.lowercased())
         let compoundPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: [search, category])
         return compoundPredicate
     }

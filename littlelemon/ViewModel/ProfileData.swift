@@ -19,4 +19,20 @@ class ProfileData : ObservableObject {
     @AppStorage("receivePasswordChanges") var receivePasswordChanges: Bool = true
     @AppStorage("receiveSpecialOffers") var receiveSpecialOffers: Bool = true
     @AppStorage("receiveNewsletter") var receiveNewsletter: Bool = true
+    
+    func reset() {
+        loggedIn = false
+        firstName = ""
+        lastName = ""
+        email = ""
+        phone = ""
+        receiveOrderStatuses = true
+        receivePasswordChanges = true
+        receiveSpecialOffers = true
+        receiveNewsletter = true
+    }
+    
+    static func isUserAlreadyLoggedIn() -> Bool {
+        UserDefaults.standard.bool(forKey: "loggedIn")
+    }
 }

@@ -11,6 +11,7 @@ import SwiftUI
 struct UserProfile: View {
     @StateObject var profileData = ProfileData()
     @StateObject var validator = Validator()
+    @EnvironmentObject var appNavigator: AppNavigator
 
     @State var firstName = ""
     @State var lastName = ""
@@ -23,7 +24,7 @@ struct UserProfile: View {
     @State private var receiveSpecialOffers: Bool = true
     @State private var receiveNewsletter: Bool = true
     
-    @Environment(\.presentationMode) var presentation
+    // @Environment(\.presentationMode) var presentation
     
     var body: some View {
         ScrollView {
@@ -136,8 +137,8 @@ struct UserProfile: View {
                 
                 VStack(spacing: 15) {
                     Button("Log out") {
-                        profileData.loggedIn = false
-                        self.presentation.wrappedValue.dismiss()
+                        profileData.reset()
+                        appNavigator.goToRoot()
                     }
                     .frame(maxWidth: .infinity)
                     .padding()
@@ -148,7 +149,8 @@ struct UserProfile: View {
                     
                     HStack(spacing: 15) {
                         Button("Discard changes") {
-                            self.presentation.wrappedValue.dismiss()
+                            loadData()
+                            appNavigator.goBack()
                         }
                         .frame(maxWidth: .infinity)
                         .padding()
@@ -170,7 +172,7 @@ struct UserProfile: View {
                                 profileData.receivePasswordChanges = receivePasswordChanges
                                 profileData.receiveSpecialOffers = receiveSpecialOffers
                                 profileData.receiveNewsletter = receiveNewsletter
-                                self.presentation.wrappedValue.dismiss()
+                                appNavigator.goBack()
                             }
                             
                         }
@@ -188,15 +190,19 @@ struct UserProfile: View {
         }
         .littleLemonNavigationBarStyle()
         .onAppear {
-            firstName = profileData.firstName
-            lastName = profileData.lastName
-            email = profileData.email
-            phone = profileData.phone
-            receiveOrderStatuses = profileData.receiveOrderStatuses
-            receivePasswordChanges = profileData.receivePasswordChanges
-            receiveSpecialOffers = profileData.receiveSpecialOffers
-            receiveNewsletter = profileData.receiveNewsletter
+            loadData()
         }
+    }
+    
+    func loadData() {
+        firstName = profileData.firstName
+        lastName = profileData.lastName
+        email = profileData.email
+        phone = profileData.phone
+        receiveOrderStatuses = profileData.receiveOrderStatuses
+        receivePasswordChanges = profileData.receivePasswordChanges
+        receiveSpecialOffers = profileData.receiveSpecialOffers
+        receiveNewsletter = profileData.receiveNewsletter
     }
 }
 
